@@ -1,4 +1,3 @@
-
 #include <string>
 #include <iostream>
 
@@ -28,6 +27,17 @@ public:
         if ((index>=0) && (index<=ArrSize))
             A[index] = value;
     }
+   
+    // Ввод массива с клавиатуры 
+    void ArrayInitializingByHands() {
+    for (int i = 0; i < ArrSize; i++)
+    {
+        int ArrayEnteringInteger;
+        std::cout << "Введите элемент под индексом " << i << ": ";
+        std::cin >> ArrayEnteringInteger;
+        A[i] = ArrayEnteringInteger;
+    }
+    }
 
     // метод Get
     int GetAi(int index) { return A[index]; }
@@ -45,6 +55,30 @@ public:
         std::cout << ExampleARRInt.GetAi(i) << ",";
 
     }
+    
+    // метод сортирует массив
+    void sort() {
+        for (int i = 0; i < ArrSize; i++) // сортировка
+            for (int j = ArrSize - 1; j > i; j--)
+                if (A[j] < A[i]) std::swap(A[j], A[i]);
+        
+        std::cout <<"\nОтсортированный массив: ";
+        
+    }
+    
+    // метод находит сумму элементов массива
+    void sum() {
+        int s = 0;
+        for (int i = 0; i < ArrSize; i++)
+            s += A[i];
+        std::cout <<"Сумма элементов массива =  "<< s << std::endl;
+    }
+    
+    // метод находит размерность массива
+    void dim() {
+        std::cout <<"Размерность массива =  "<< ArrSize;  
+    }
+
 
     // перегруженный оператор ++
     // форма префикса
@@ -98,45 +132,59 @@ using namespace std;
 
 int main()
 {
+    int ArrSize;
+    cout<<"Введите количество элементов в массиве: ";
+    cin>> ArrSize;
     //объявляем новый экземпляр класса
-    ARRInt ExampleARRInt(10);
+    ARRInt ExampleARRInt(ArrSize);
     
     //инициализируем и заполняем новый экземпляр класса формулой: "итератор + 1" для наглядности
     
     //можно засунуть руками цифру в каждый элемент любого индекса, просто мне лень
     //в духе ExampleARRInt.SetAi(индекс_элемента_массива, значение_элемента_массива)
-    for (int i=0; i< ExampleARRInt.GetArrSize(); i++)
-    ExampleARRInt.SetAi(i, i + 1);
+    
+    //Можно сделать автоматическую инициализацию массива путем
+    ExampleARRInt.ArrayInitializingByHands();
     
     //вывод инициализированного массива в консоль
-    cout<<"Initialized array: ";
+    cout<<"\nИнициализированный массив: ";
     ExampleARRInt.PrintArr(ExampleARRInt);
     
     //перегрузка префикс-тип инкремента и вывод в консоль
     //можно одной строкой ExampleARRInt.PrintArr(ExampleARRInt++);, я разделил для читаемости
-    cout<<"Prefix ++ example:   ";
+    cout<<"Префикс ++ перегрузка:   ";
     ++ExampleARRInt;
     ExampleARRInt.PrintArr(ExampleARRInt);
     
     //перегрузка постфикс-тип инкремента и вывод в консоль
-    cout<<"Postfix ++ example:  ";
+    cout<<"Постфикс ++ перегрузка:  ";
     ExampleARRInt++;
     ExampleARRInt.PrintArr(ExampleARRInt);
    
     //перегрузка префикс-тип декремента и вывод в консоль 
-    cout<<"Prefix -- example:   ";
+    cout<<"Префикс -- перегрузка:   ";
     --ExampleARRInt;
     ExampleARRInt.PrintArr(ExampleARRInt);
     
     //перегрузка постфикс-тип декремента и вывод в консоль
-    cout<<"Postfix -- example:   ";
+    cout<<"Постфикс -- перегрузка:   ";
     ExampleARRInt--;
     ExampleARRInt.PrintArr(ExampleARRInt);
     
     //умножение каждого элемента массива на скаляр с помощью перегрузки оператора *
     //в данном случае умножаем на число 5 (скаляр)
-    cout<<"Multiply * example:   ";
-    ExampleARRInt*5;
+    cout<<"\nВведите скаляр для умножение вектора: ";
+    int MultiplyNumber;
+    cin>> MultiplyNumber; 
+    cout<<"\nУмножение вектора * (перегрузка оператора) на скаляр " << MultiplyNumber << ": ";
+    ExampleARRInt*MultiplyNumber;
+    ExampleARRInt.PrintArr(ExampleARRInt);
+    
+    ExampleARRInt.sum();
+    
+    ExampleARRInt.dim();
+    
+    ExampleARRInt.sort();
     ExampleARRInt.PrintArr(ExampleARRInt);
 
     return 0;
