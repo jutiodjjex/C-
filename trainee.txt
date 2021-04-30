@@ -1,0 +1,143 @@
+
+#include <string>
+#include <iostream>
+
+// класс который представляет массив в виде объекта
+class ARRInt
+{
+private:
+    int A[100]; // массив целых чисел
+    int ArrSize; // количество элементов в массиве
+
+public:
+    // конструктор
+    ARRInt() { ArrSize = 0; }
+
+    ARRInt(int _ArrSize)
+    {
+        if (_ArrSize>100) _ArrSize=100;
+        ArrSize = _ArrSize;
+
+        for (int i=0; i<ArrSize; i++)
+            A[i] = 0;
+    }
+
+    // метод Set
+    void SetAi(int index, int value)
+    {
+        if ((index>=0) && (index<=ArrSize))
+            A[index] = value;
+    }
+
+    // метод Get
+    int GetAi(int index) { return A[index]; }
+    
+    // метод получает размер массива
+    int GetArrSize(void) { return ArrSize; }
+    
+    // метод выводит массив в консоль
+    void PrintArr(ARRInt ExampleARRInt) { 
+        std::cout << "{";
+    for (int i=0; i < ExampleARRInt.GetArrSize(); i++) 
+    if (i == ExampleARRInt.GetArrSize() - 1)
+        std::cout << ExampleARRInt.GetAi(i) << "}" << "\n";
+    else
+        std::cout << ExampleARRInt.GetAi(i) << ",";
+
+    }
+
+    // перегруженный оператор ++
+    // форма префикса
+    ARRInt operator++(void)
+    {
+        for (int i=0; i<ArrSize; i++)
+            A[i] = A[i] + 1;
+        return *this;
+    }
+
+    // перегруженный оператор ++, аргумент t не используется
+    // форма постфикса
+    ARRInt operator++(int t)
+    {
+        for (int i=0; i<ArrSize; i++)
+            A[i] = A[i] + 1;
+        return *this;
+    }
+
+    // перегруженный оператор --
+    // форма префикса
+    ARRInt operator--(void)
+    {
+        for (int i=0; i<ArrSize; i++)
+            A[i] = A[i] - 1;
+        return *this;
+    }
+
+    // перегруженный оператор --, аргумент t не используется
+    // форма постфикса
+    ARRInt operator--(int t)
+    {
+        for (int i=0; i<ArrSize; i++)
+            A[i] = A[i] - 1;
+        return *this;
+    }
+    
+    // перегруженный оператор *, аргумент t - скаляр, на который умножается вектор
+    ARRInt operator*(int t)
+    {
+        for (int i=0; i<ArrSize; i++)
+            A[i] = A[i] * t;
+        return *this;
+    }
+    
+};
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    //объявляем новый экземпляр класса
+    ARRInt ExampleARRInt(10);
+    
+    //инициализируем и заполняем новый экземпляр класса формулой: "итератор + 1" для наглядности
+    
+    //можно засунуть руками цифру в каждый элемент любого индекса, просто мне лень
+    //в духе ExampleARRInt.SetAi(индекс_элемента_массива, значение_элемента_массива)
+    for (int i=0; i< ExampleARRInt.GetArrSize(); i++)
+    ExampleARRInt.SetAi(i, i + 1);
+    
+    //вывод инициализированного массива в консоль
+    cout<<"Initialized array: ";
+    ExampleARRInt.PrintArr(ExampleARRInt);
+    
+    //перегрузка префикс-тип инкремента и вывод в консоль
+    //можно одной строкой ExampleARRInt.PrintArr(ExampleARRInt++);, я разделил для читаемости
+    cout<<"Prefix ++ example:   ";
+    ++ExampleARRInt;
+    ExampleARRInt.PrintArr(ExampleARRInt);
+    
+    //перегрузка постфикс-тип инкремента и вывод в консоль
+    cout<<"Postfix ++ example:  ";
+    ExampleARRInt++;
+    ExampleARRInt.PrintArr(ExampleARRInt);
+   
+    //перегрузка префикс-тип декремента и вывод в консоль 
+    cout<<"Prefix -- example:   ";
+    --ExampleARRInt;
+    ExampleARRInt.PrintArr(ExampleARRInt);
+    
+    //перегрузка постфикс-тип декремента и вывод в консоль
+    cout<<"Postfix -- example:   ";
+    ExampleARRInt--;
+    ExampleARRInt.PrintArr(ExampleARRInt);
+    
+    //умножение каждого элемента массива на скаляр с помощью перегрузки оператора *
+    //в данном случае умножаем на число 5 (скаляр)
+    cout<<"Multiply * example:   ";
+    ExampleARRInt*5;
+    ExampleARRInt.PrintArr(ExampleARRInt);
+
+    return 0;
+}
